@@ -1,14 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
+plt.style.use('dark_background')
 
 # DATOS DE ENTRADA (PROBLEMA EJEMPLO 5-1, CENGEL, pag 297)
 
 L=0.04                      # Longitud de la pared [m]              
-n=3                         # Número de nodos
+n=50                       # Número de nodos
 dx=L/(n-1)                  # Delta X [m]
 x=np.linspace(0,L,n)        # Malla unidimensional para la pared
-T=np.array(np.zeros(n))     # Crear el array de temperatura
-
 
 T_amb=30                    # Temperatura ambiente [°C]
 h=45                        # Coeficiente de convección [W/m^2K]
@@ -17,6 +16,7 @@ k=28                        # Conductividad térmica [W/mK]
 
 
 # CONDICIONES DE FRONTERA
+T=np.array(np.zeros(n))     # Crear el array de temperatura
 TL=0                        # Condición de frontera izquierda
 T[0]=TL                     # Fijar la condición de frontera izquierda
 
@@ -37,10 +37,18 @@ while (err>tol):
     err=np.amax(np.abs(np.array(Told-T)))
     iter=iter+1
 
-print("El valor de las teperatura T2 = ", T[1])
+print("El valor de las teperatura T2 = ", T[-1])
 
 # GRÁFICOS
-plt.plot(x,T)
+from matplotlib.pyplot import figure
+figure(figsize=(10,6))
+plt.plot(x,T, linewidth=3)
+plt.title("Variación de la temperatura con la longitud", fontsize=18)
+plt.xlim(0,L)
+plt.ylim(0,140)
+plt.xlabel("Longitud (m)", fontsize=18)
+plt.ylabel("Temperatura de la pared (°C)", fontsize=18)
+plt.grid(linestyle = ":", linewidth =0.5)
 plt.show()
 
 
