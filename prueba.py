@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 L=0.05
-n=6
+n=20
 dx=L/(n-1)
 x=np.linspace(0,L,n)
 T=np.array(np.zeros(n))
@@ -10,7 +10,7 @@ e=600000
 k=28
 h=60
 T_amb=30
-tol=0.00001
+tol=0.0001
 error=1
 iter=0
 
@@ -24,26 +24,22 @@ while error>tol:
     error=np.max(np.abs(np.array(Told-T)))
     iter=iter+1
     
-np.set_printoptions(precision=2)
-print("El vector de Temperaturas es:\n")
-print(T)
-print("\nNúmero de iteraciones: ", iter)
-
+# GRAFICO 
 from matplotlib.pyplot import figure
 plt.style.use("dark_background")
 figure(figsize=(10,6))
-plt.plot(x,T, linewidth=3)
+plt.plot(x,T, linewidth=4)
 plt.title("Variación de la Temperatura", fontsize=18)
 plt.xlim(0,L)
-plt.ylim(530,560)
+plt.ylim(530,557)
 plt.xlabel("Longitud (m)", fontsize=18)
 plt.ylabel("Temperatura (°C)", fontsize=18)
 plt.grid(linestyle=":", linewidth=0.5)
 plt.show()
 
+#RESULTADOS 
+
 import pandas as pd
-nodos=[0,1,2,3,4,5]
-df = pd.DataFrame({"Nodo": nodos, "Temperatura (°C)": T})
+df = pd.DataFrame({"x (m)": x, "Temperatura (°C)": T})
 pd.options.display.float_format = "{:,.2f}".format
-#df.head()
 print(df)
