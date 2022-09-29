@@ -16,7 +16,7 @@ iter=0
 
 while error>tol:
     Told=np.copy(T)
-    T[0]=Told[1]+(e*dx**2)/(2*k)  # Pared aislada
+    T[0]=Told[1]+(e*dx**2)/(2*k) 
     T[-1]=(h*T_amb+(k*Told[n-2]/dx)+(e*dx/2))/(h+(k/dx))
     
     for i in range(1,n-1):
@@ -40,3 +40,10 @@ plt.xlabel("Longitud (m)", fontsize=18)
 plt.ylabel("Temperatura (°C)", fontsize=18)
 plt.grid(linestyle=":", linewidth=0.5)
 plt.show()
+
+import pandas as pd
+nodos=[0,1,2,3,4,5]
+df = pd.DataFrame({"Nodo": nodos, "Temperatura (°C)": T})
+pd.options.display.float_format = "{:,.2f}".format
+#df.head()
+print(df)
