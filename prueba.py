@@ -1,27 +1,26 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-L=1
-n=9
+L=0.05
+n=6
 dx=L/(n-1)
 x=np.linspace(0,L,n)
-
 T=np.array(np.zeros(n))
-TL=30
-T[0]=TL
-k=45
-q=1200
-
-tol=0.0001
+e=600000
+k=28
+h=60
+T_amb=30
+tol=0.00001
 error=1
 iter=0
 
 while error>tol:
     Told=np.copy(T)
-    T[-1]=Told[n-2]+q/(k/dx)
+    T[0]=Told[1]+(e*dx**2)/(2*k)  # Pared aislada
+    T[-1]=(h*T_amb+(k*Told[n-2]/dx)+(e*dx/2))/(h+(k/dx))
     
     for i in range(1,n-1):
-        T[i]=0.5*(Told[i-1]+Told[i+1])
+        T[i]=0.5*(Told[i-1]+Told[i+1]+(e*dx**2/k))
     error=np.max(np.abs(np.array(Told-T)))
     iter=iter+1
     
@@ -36,7 +35,7 @@ figure(figsize=(10,6))
 plt.plot(x,T, linewidth=3)
 plt.title("Variación de la Temperatura", fontsize=18)
 plt.xlim(0,L)
-plt.ylim(30,60)
+plt.ylim(530,560)
 plt.xlabel("Longitud (m)", fontsize=18)
 plt.ylabel("Temperatura (°C)", fontsize=18)
 plt.grid(linestyle=":", linewidth=0.5)
